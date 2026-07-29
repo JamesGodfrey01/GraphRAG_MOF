@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     # =====================================================
     tracking_dir: Path = data_dir / "tracking"
     ccdc_tracking_csv: Path = tracking_dir / "ccdc_tracking.csv"
+    paper_tracking_csv: Path = tracking_dir / "paper_tracking.csv"
 
     # =====================================================
     # Raw Data (Collector Inbox)
