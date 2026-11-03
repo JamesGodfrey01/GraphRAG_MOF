@@ -5,4 +5,11 @@ __pycache__/
 *.py[cod]
 
 paper_session.session
+paper.json
+paper.md
+
 /data
+
+/notebooks
+
+/papers
