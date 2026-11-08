@@ -4,17 +4,15 @@ import gemmi
 import json
 import pandas as pd
 
-ROOT = Path("/Users/jamesgodfrey/Documents/Code/knowledgegraphRAG")
-sys.path.insert(0, str(ROOT))
-from src.config.settings import Settings
+from mof_rag.config.settings import Settings
 
 settings = Settings()
-paper_tracking = pd.read_csv(settings.paper_tracking_csv)
 
-class CIF_Extractor:
+
+class CifExtractor:
 
     def __init__(self):
-        self.paper_tracking = paper_tracking
+        self.paper_tracking = pd.read_csv(settings.paper_tracking_csv)
 
 
 
@@ -33,7 +31,7 @@ class CIF_Extractor:
         """
 
         if val_str is None or val_str in ('?', '.'):
-            return None, 0.0
+            return None, None
 
 
         # Handle lists recursively
@@ -272,7 +270,7 @@ class CIF_Extractor:
 
 
     def main(self):
-        OUTPUT_DIR = settings.json_dir
+        OUTPUT_DIR = settings.mof_json_dir
 
         for cif_file in Path(settings.ready_cif_dir).glob("*.cif"):
 
@@ -285,8 +283,6 @@ class CIF_Extractor:
 
 
 
-
-cif_extractor = CIF_Extractor()
-
-
-cif_extractor.main()
+if __name__ == "__main__":
+    cif_extractor = CifExtractor()
+    cif_extractor.main()

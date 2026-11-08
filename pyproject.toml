@@ -1,0 +1,13 @@
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mof-rag"
+version = "0.1.0"
+description = "MOF knowledge graph and RAG system"
+requires-python = ">=3.13"
+
+[tool.setuptools.packages.find]
+where = ["src"]

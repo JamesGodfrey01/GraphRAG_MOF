@@ -1,7 +1,7 @@
 from pathlib import Path
 from pydantic_settings import BaseSettings
 
-ROOT_DIR = Path(__file__).resolve().parents[2]
+ROOT_DIR = Path(__file__).resolve().parents[3]
 
 
 class ExtractorSettings(BaseSettings):
@@ -54,4 +54,6 @@ class Settings(BaseSettings):
 
 
     # Processed Data
-    processed_dir: Path = data_dir / "processed"
+    mof_json_dir: Path = data_dir / "processed" / "mof_json"
+
+    marker_cache_dir: Path = data_dir / "markercache"
