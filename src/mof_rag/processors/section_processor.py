@@ -363,7 +363,7 @@ class SectionProcessor:
             if b.block_type not in (BlockTypes.Span, BlockTypes.ListItem, BlockTypes.Line):
                 end_of_doc_span.append("BREAKBREAK")
 
-            if b.block_type == BlockTypes.Span:
+            if b.block_type in (BlockTypes.Span, BlockTypes.ListItem, BlockTypes.Line):
                 end_of_doc_span.append(b.text)
 
 
