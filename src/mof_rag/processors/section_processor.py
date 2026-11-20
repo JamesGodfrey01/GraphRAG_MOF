@@ -352,10 +352,6 @@ class SectionProcessor:
 
 
 
-
-
-
-
     def concat_span_data_types(self, blocks):
 
         end_of_doc_span = []
