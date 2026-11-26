@@ -4,6 +4,7 @@ from mof_rag.cache.cache import PaperCache
 from mof_rag.extractors.paper_extractor import PaperExtractor
 from mof_rag.config.settings import Settings, ExtractorSettings
 from mof_rag.processors.section_processor import SectionProcessor
+from mof_rag.extractors.chemical_extractor import SynthesisLinker
 
 
 class PaperPipeline:
@@ -98,14 +99,33 @@ class PaperPipeline:
 
 
 
-settings = Settings()
-extractor_settings = ExtractorSettings()
 
-paper_pipeline = PaperPipeline(
-    settings=settings,
-    extractor_settings=extractor_settings
-)
-res = paper_pipeline.run()
+
+if __name__ == "__main__":
+
+    settings = Settings()
+    extractor_settings = ExtractorSettings()
+
+    paper_pipeline = PaperPipeline(
+        settings=settings,
+        extractor_settings=extractor_settings
+    )
+    res = paper_pipeline.run()
+
+    print("RESULTS::\n")
+    
+    experimental = next(s['paragraphs'] for s in res['results']['sections'] if s['heading'] == 'EXPERIMENTAL')
+    print(experimental)
+
+    synthesis_linker = SynthesisLinker()
+    result = []
+    for para in experimental:
+        res = synthesis_linker.run(text = para)
+        result.append(res)
+
+
+    print(result)
+
 
 
 

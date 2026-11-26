@@ -1,17 +1,22 @@
+import os
 import re
+
+from dataclasses import dataclass
+
 from pydantic import BaseModel, Field
-from transformers import pipeline
 
 from pydantic_ai import Agent
 from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.providers.ollama import OllamaProvider
 from pydantic_ai.output import NativeOutput
-import os
+
+from transformers import pipeline
+
 from typing import Literal
-from dataclasses import dataclass
+
+
 
 os.environ["PYDANTIC_AI_NO_BANNER"] = "1"
-
 
 
 class SynthesisLinker:
@@ -36,7 +41,7 @@ class SynthesisLinker:
         return
 
 
-    def run(self):
+    def run(self, text):
 
         """
         Water fails to be picked up by NER. do Water -> H2O
@@ -44,14 +49,14 @@ class SynthesisLinker:
 
     
 
-        text = """
-        In a typical synthesis of MOF-5, Zn(NO3)2·6H2O (2.97 g, 10 mmol) and terephthalic acid (H2BDC, 0.83 g, 5 mmol) were 
-        dissolved in a mixed solvent system of N,N-dimethylformamide (DMF, 50 mL) and distilled water (5 mL). 
-        The resulting solution was sealed in a 100 mL Teflon-lined stainless steel autoclave and heated statically from 
-        room temperature to 105 °C at a ramp rate of 5 °C/min, maintaining this temperature for 72 h. After cooling to 25 °C 
-        naturally, colorless cubic crystals were filtered, washed three times with anhydrous DMF (3 x 15 mL), and subsequently 
-        activated under dynamic vacuum at 150 °C for 12 h to yield the final porous framework (yield: 78% based on Zn).
-        """
+        #text = """
+        #In a typical synthesis of MOF-5, Zn(NO3)2·6H2O (2.97 g, 10 mmol) and terephthalic acid (H2BDC, 0.83 g, 5 mmol) were 
+        #dissolved in a mixed solvent system of N,N-dimethylformamide (DMF, 50 mL) and distilled water (5 mL). 
+        #The resulting solution was sealed in a 100 mL Teflon-lined stainless steel autoclave and heated statically from 
+        #room temperature to 105 °C at a ramp rate of 5 °C/min, maintaining this temperature for 72 h. After cooling to 25 °C 
+        #naturally, colorless cubic crystals were filtered, washed three times with anhydrous DMF (3 x 15 mL), and subsequently 
+        #activated under dynamic vacuum at 150 °C for 12 h to yield the final porous framework (yield: 78% based on Zn).
+        #"""
 
 
         chemicals = self.ner(text)
@@ -81,6 +86,7 @@ class SynthesisLinker:
         print("\nAGENT OUTPUT:\n")
 
         print(result)
+        return result
 
 
     def insert_chemical_and_quantity_tags(self, chemicals, quantities_and_units, text):
