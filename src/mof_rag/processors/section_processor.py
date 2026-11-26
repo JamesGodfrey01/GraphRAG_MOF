@@ -6,7 +6,10 @@ from pylatexenc.latex2text import LatexNodes2Text
 
 from marker.schema import BlockTypes
 
+from mof_rag.cache.cache import PaperCache
+from mof_rag.config.settings import Settings, ExtractorSettings
 
+latex_special_characters = ['#', '$', '%', '&', '~', '_', '^', '\\', '{', '}']
 
 
 class SectionProcessor:
@@ -442,3 +445,51 @@ class SectionProcessor:
         )
 
         return results
+
+
+
+if __name__ == '__main__':  
+    settings = Settings()
+
+
+    INPUT_FILE = "/Users/jamesgodfrey/Documents/Code/knowledgegraphRAG/data/test/a-domenicano-the-crystal-structure-of-a-2-1-complex-of.pdf"
+    
+    
+    paper_cache = PaperCache(cache_dir = settings.marker_cache_dir)
+
+    cache = paper_cache.get_cache(input_file=INPUT_FILE)
+
+
+
+    blocks, document = cache
+
+        
+        
+    section_processor = SectionProcessor(
+        blocks= blocks,
+        document= document
+    )
+
+    results = section_processor.extract()
+
+
+    # Identify references
+
+    references, results = section_processor.identify_references(results= results)
+
+    span_data_joined = section_processor.concat_span_data_types(blocks= blocks)
+
+
+    span_data = [
+        cleaned_text
+        for text in span_data_joined
+        if (cleaned_text := section_processor.remove_heading_words(text))
+    ]
+
+
+    result = {"results": results,
+            "references": references,
+            "span": span_data
+            }
+
+    print(result)
